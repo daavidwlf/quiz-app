@@ -10,6 +10,8 @@ public class Game {
     private int amountQuestions;
     private int amountQuestionsCorrect;
 
+    private static String CSVHeader = "id;score;amountQuestions;amountQuestionsCorrect";
+
     public Game(){
         this.id = new Date();
         this.score = 0;
@@ -22,6 +24,10 @@ public class Game {
         this.score = 0;
         this.amountQuestions = 0;
         this.amountQuestionsCorrect = 0;
+    }
+
+    public static String getCSVHeader(){
+        return CSVHeader;
     }
 
     public String getId(){

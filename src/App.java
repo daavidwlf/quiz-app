@@ -1,4 +1,4 @@
-import java.util.*;
+import functions.Functions;
 
 /**
  * This is the entry class which conatains the main method
@@ -11,5 +11,6 @@ import java.util.*;
 public class App {
     public static void main(String[] args) throws Exception {
         new Frame();
+        Functions.validateCSVFile();
     }
 }
