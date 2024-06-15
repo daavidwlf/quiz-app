@@ -19,8 +19,8 @@ import javax.swing.event.ChangeListener;
 public class Settings {
     public JPanel main;
 
-    private String selectedLevel = "Medium";
-    private int amountQuestions = 5;
+    private static String selectedLevel = "Medium";
+    private static int amountQuestions = 5;
 
     public Settings(){
         main = new JPanel();
@@ -58,7 +58,7 @@ public class Settings {
             @Override
             public void actionPerformed(ActionEvent event) {
                 JComboBox<String> comboBox = (JComboBox<String>) event.getSource();
-                String selectedLevel = (String) comboBox.getSelectedItem();
+                selectedLevel = (String) comboBox.getSelectedItem();
                 selectionDifficultyLabel.setText(selectedLevel);
             }
         });
@@ -76,7 +76,7 @@ public class Settings {
      * @return selectedLevel
      */
 
-    public String getDifficulty(){
+    public static String getDifficulty(){
         return selectedLevel;
     }
 
@@ -86,7 +86,7 @@ public class Settings {
      * @return amountQuestions
      */
 
-    public int getAmountQuestions(){
+    public static int getAmountQuestions(){
         return amountQuestions;
     }
 }
