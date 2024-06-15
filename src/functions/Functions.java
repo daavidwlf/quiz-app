@@ -1,5 +1,7 @@
 package functions;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -7,6 +9,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 import data.Game;
 
@@ -24,7 +31,7 @@ public class Functions {
         if(!fileExists(path)){
             try{
                 Files.createFile(createPath);
-                Files.write(createPath, Game.getCSVHeader().getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
+                Files.write(createPath, (Game.getCSVHeader() + "\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
                 
             }catch(IOException err){
                 System.out.println(err);
@@ -35,18 +42,103 @@ public class Functions {
         }
     }
 
-    public static Game getLastGame(Game game){
+    public static List<Game> getGames(){
+
+        String path = "src/data/games.csv";
+
+        if(!fileExists("src/data/games.csv")){
+            System.out.println("No Games saved");
+            return Collections.emptyList();
+        }
+
+        LinkedList<Game> games = new LinkedList<Game>();
+
+        try(BufferedReader reader = new BufferedReader(new FileReader(path))){
+
+            String currentLine = "";
+
+            //skips header
+            reader.readLine();
+
+            while((currentLine = reader.readLine()) != null){
+
+                String[] currentLineData = currentLine.split(";");
+
+                Game game = new Game(
+                    Timestamp.valueOf(currentLineData[0]),
+                    Integer.parseInt(currentLineData[1]),
+                    Integer.parseInt(currentLineData[2]),
+                    Integer.parseInt(currentLineData[3])
+                );
+
+                games.add(game);
+            }
+
+        }catch(IOException err){
+            System.out.println(err);
+        }
         
-        String line = "";
+        return games;
+    }
 
-        InputStream input = Functions.class.getClassLoader().getResourceAsStream("/data/games.csv");
+    public static List<Game> getLastGame(){
 
-        System.out.println(input);
-        // try{
-        // }catch(IOException err){
-        //     System.out.println(err);
-        // }
+        String path = "src/data/games.csv";
 
-        return game;
+        if(!fileExists("src/data/games.csv")){
+            System.out.println("No Games saved");
+            return Collections.emptyList();
+        }
+
+        LinkedList<Game> games = new LinkedList<Game>();
+
+        try(BufferedReader reader = new BufferedReader(new FileReader(path))){
+
+            String currentLine = "";
+            String lastLine = null;
+
+            //skips header
+            reader.readLine();
+
+            while((currentLine = reader.readLine()) != null){
+                lastLine = currentLine;
+            }
+
+            if(lastLine != null){
+                String[] lastLineData = lastLine.split(";");
+
+                Game game = new Game(
+                    Timestamp.valueOf(lastLineData[0]),
+                    Integer.parseInt(lastLineData[1]),
+                    Integer.parseInt(lastLineData[2]),
+                    Integer.parseInt(lastLineData[3])
+                );
+                games.add(game);
+            }else{
+                return Collections.emptyList();
+            }
+
+        }catch(IOException err){
+            System.out.println(err);
+        }
+        
+        return games;
+    }
+
+    public static List<Game> addGame(Game game){
+
+        String path = "src/data/games.csv";
+        Path createPath = Paths.get(path);
+
+        if(fileExists(path)){
+            try{
+                Files.write(createPath, (game.getGameAsString()+ "\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
+                
+            }catch(IOException err){
+                System.out.println(err);
+            }
+        }
+        
+        return getGames();
     }
 }

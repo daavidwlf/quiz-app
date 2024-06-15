@@ -2,29 +2,33 @@ package components;
 import java.awt.*;
 import javax.swing.*;
 
-public class Header{
+/**
+ *  basic header component
+ *  
+ *  @author David Wolf
+ *  @version 2024-06-14
+ */
+
+public class Header extends JPanel{
 
     public JPanel main;
 
-    JLabel left;
-    JLabel mid;
-    JLabel right;
+    public Header(String title, boolean backVisible){
+        main = new JPanel();
+        
+        //set max size to be able to stack component vertically 
+        main.setPreferredSize(new Dimension(0, 40));
+        main.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        main.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-    public Header(JFrame frame){
-        main = new JPanel(new GridLayout(1,3));
-        main.setPreferredSize(new Dimension(frame.getWidth(), 100));
+        //create label based on title
+        JLabel mid = new JLabel(title, JLabel.CENTER);
         //main.setBackground(Color.BLUE);
 
         // Icon quiz = new ImageIcon(Header.class.getResource("/assets/quiz.png"));
         // System.out.println("Icon Width: " + quiz.getIconWidth());
         // System.out.println("Icon Height: " + quiz.getIconHeight());
 
-        left = new JLabel();
-        mid = new JLabel("Quiz App", JLabel.CENTER);
-        right =  new JLabel();
-
-        main.add(left);
-        main.add(mid);
-        main.add(right);
+        main.add(mid, JLabel.CENTER);
     }
 }

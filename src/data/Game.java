@@ -1,11 +1,12 @@
 package data;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Game {
 
-    //id serves as date and id because of it's uniqueness
-    private Date id;
+    //id serves as date and id because of it's uniqueness and is saved as a timestamp
+    private Timestamp id;
     private int score;
     private int amountQuestions;
     private int amountQuestionsCorrect;
@@ -13,17 +14,26 @@ public class Game {
     private static String CSVHeader = "id;score;amountQuestions;amountQuestionsCorrect";
 
     public Game(){
-        this.id = new Date();
+        Date now =  new Date();
+        this.id = new Timestamp(now.getTime());
         this.score = 0;
         this.amountQuestions = 0;
         this.amountQuestionsCorrect = 0;
     }
 
     public Game(int amountQuestions){
-        this.id = new Date();
+        Date now =  new Date();
+        this.id = new Timestamp(now.getTime());
         this.score = 0;
         this.amountQuestions = 0;
         this.amountQuestionsCorrect = 0;
+    }
+
+    public Game(Timestamp id, int score, int amountQuestions, int amountQuestionsCorrect){
+        this.id = id;
+        this.score = score;
+        this.amountQuestions = amountQuestions;
+        this.amountQuestionsCorrect = amountQuestionsCorrect;
     }
 
     public static String getCSVHeader(){
@@ -51,6 +61,13 @@ public class Game {
     }
 
     public float getPercentageCorrect(){
-        return amountQuestionsCorrect/amountQuestions;
+        if(amountQuestions != 0){
+            return (float)amountQuestionsCorrect/(float)amountQuestions;
+        }
+        return 0;
+    }
+
+    public String getGameAsString(){
+        return this.id.toString() + ";" + this.score + ";" + this.amountQuestions + ";" + this.amountQuestionsCorrect;
     }
 }

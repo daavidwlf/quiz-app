@@ -40,6 +40,5 @@ public class CustomPanel extends JPanel {
         graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         graphics2d.setColor(getBackground());
         graphics2d.fillRoundRect(0, 0, getWidth(), getHeight(), borderRadius, borderRadius);
-        System.out.println("Pint");
     }
 }
