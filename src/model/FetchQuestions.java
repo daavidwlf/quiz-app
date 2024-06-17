@@ -2,12 +2,16 @@ package model;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
+
+import javax.naming.TimeLimitExceededException;
 
 import edu.kit.aifb.atks.opentdb4j.OpenTDB;
 import edu.kit.aifb.atks.opentdb4j.OpenTDBAPIException;
 import edu.kit.aifb.atks.opentdb4j.Question;
 import edu.kit.aifb.atks.opentdb4j.QuestionDifficulty;
 import edu.kit.aifb.atks.opentdb4j.QuestionType;
+import view.ErrorPopUp;
 
 /**
  * This class is used to acess the question database and handle errors
@@ -60,6 +64,7 @@ public class FetchQuestions {
         try {
             return OpenTDB.fetchQuestions(amount, type);
         } catch (OpenTDBAPIException e) {
+            new ErrorPopUp();
             return Collections.emptyList();
         }
     }
@@ -77,6 +82,7 @@ public class FetchQuestions {
         try {
             return OpenTDB.fetchQuestions(amount, type, difficulty, category);
         } catch (OpenTDBAPIException e) {
+            new ErrorPopUp();
             return Collections.emptyList();
         }
     }

@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import model.Game;
+import view.ErrorPopUp;
 
 public class Functions {
 
@@ -34,6 +35,7 @@ public class Functions {
                 Files.write(createPath, (Game.getCSVHeader() + "\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
                 
             }catch(IOException err){
+                new ErrorPopUp();
                 System.out.println(err);
             }
         }
@@ -75,6 +77,7 @@ public class Functions {
             }
 
         }catch(IOException err){
+            new ErrorPopUp();
             System.out.println(err);
         }
         
@@ -119,6 +122,7 @@ public class Functions {
             }
 
         }catch(IOException err){
+            new ErrorPopUp();
             System.out.println(err);
         }
         
@@ -135,6 +139,7 @@ public class Functions {
                 Files.write(createPath, (game.getGameAsString()+ "\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
                 
             }catch(IOException err){
+                new ErrorPopUp();
                 System.out.println(err);
             }
         }
