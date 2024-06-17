@@ -16,6 +16,9 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.kit.aifb.atks.opentdb4j.QuestionDifficulty;
+import edu.kit.aifb.atks.opentdb4j.QuestionType;
+
 public class Settings {
     public JPanel main;
 
@@ -38,6 +41,7 @@ public class Settings {
             public void stateChanged(ChangeEvent e) {
                 JSpinner spinner = (JSpinner) e.getSource();
                 amountQuestions = (Integer) spinner.getValue();
+                System.out.println("Spinner: " + spinner.getValue().toString());
                 selectionAmountLabel.setText(""+amountQuestions);
             }
         });
@@ -76,8 +80,15 @@ public class Settings {
      * @return selectedLevel
      */
 
-    public static String getDifficulty(){
-        return selectedLevel;
+    public static QuestionDifficulty getDifficulty(){
+        switch (selectedLevel) {
+            case "Easy":
+                return QuestionDifficulty.EASY;
+            case "Hard":
+                return QuestionDifficulty.HARD;
+            default:
+                return QuestionDifficulty.MEDIUM;
+        }
     }
 
      /**

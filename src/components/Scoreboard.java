@@ -23,6 +23,8 @@ public class Scoreboard {
     CustomPanel box;
     JLabel test;
 
+    public static int highscore;
+
     public Scoreboard(){
 
         //add main panel with padding
