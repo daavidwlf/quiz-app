@@ -100,70 +100,105 @@ public class QuestionPanel {
         question.setEditable(false);
         question.setOpaque(false);
 
-
+        //i decided against locating this action listner into controller because it needs to much referneces to other components
         a0.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(selectedQuestion);
+
+                    //set selected button color to blue and rest black
                     a0.setForeground(Color.BLUE);
                     a1.setForeground(Color.BLACK);
                     a2.setForeground(Color.BLACK);
                     a3.setForeground(Color.BLACK);
+
                     isQuestionSelected = true;
+
+                    //set selectedQuesion to quesion index
                     selectedQuestion = 0;
+
+                    //enable continue button 
                     cont.setEnabled(true);
                     cont.setForeground(Color.BLACK);
+
+                    //enable finish button 
                     finish.setEnabled(true);
                     finish.setForeground(Color.BLACK);
             }
         });
 
+        //i decided against locating this action listner into controller because it needs to much referneces to other components
         a1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(selectedQuestion);
+
+                    //set selected button color to blue and rest black
                     a0.setForeground(Color.BLACK);
                     a1.setForeground(Color.BLUE);
                     a2.setForeground(Color.BLACK);
                     a3.setForeground(Color.BLACK);
+    
                     isQuestionSelected = true;
+
+                    //set selectedQuesion to quesion index
                     selectedQuestion = 1;
+
+                    //enable continue button 
                     cont.setEnabled(true);
                     cont.setForeground(Color.BLACK);
+
+                    //enable finish button 
                     finish.setEnabled(true);
                     finish.setForeground(Color.BLACK);
             }
         });
 
+        //i decided against locating this action listner into controller because it needs to much referneces to other components
         a2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(selectedQuestion);
+
+                    //set selected button color to blue and rest black
                     a0.setForeground(Color.BLACK);
                     a1.setForeground(Color.BLACK);
                     a2.setForeground(Color.BLUE);
                     a3.setForeground(Color.BLACK);
+
                     isQuestionSelected = true;
+
+                    //set selectedQuesion to quesion index
                     selectedQuestion = 2;
+
+                    //enable continue button
                     cont.setEnabled(true);
                     cont.setForeground(Color.BLACK);
+
+                    //enable finish button
                     finish.setEnabled(true);
                     finish.setForeground(Color.BLACK);
             }
         });
 
+        //i decided against locating this action listner into controller because it needs to much referneces to other components
         a3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(selectedQuestion);
+
+                    //set selected button color to blue and rest black
                     a0.setForeground(Color.BLACK);
                     a1.setForeground(Color.BLACK);
                     a2.setForeground(Color.BLACK);
                     a3.setForeground(Color.BLUE);
+
                     isQuestionSelected = true;
+
+                    //set selectedQuesion to quesion index
                     selectedQuestion = 3;
+
+                    //enable continue button
                     cont.setEnabled(true);
                     cont.setForeground(Color.BLACK);
+
+                    //enable finish button
                     finish.setEnabled(true);
                     finish.setForeground(Color.BLACK);
             }
@@ -184,13 +219,22 @@ public class QuestionPanel {
         return box;
     }
 
+    /** 
+     *  question panel constructor to create the quesion components while iterating through the quesion list
+     * 
+     * @param gameQuestions
+     * @param currentGame
+     * @param highscore
+     * @param onFinish
+     */
 
     public QuestionPanel(List<Question> gameQuestions, Game currentGame, int highscore, ButtonClickHandler onFinish){
 
+        //set given quesions as variables
         this.gameQuestions = gameQuestions;
         this.currentQuestion = gameQuestions.get(questionIndex);
-        System.out.println(currentQuestion);
         
+        //creat main panel and add styling
         main = new JPanel();
         main.setPreferredSize(new Dimension(300, 300));
         main.setMaximumSize(new Dimension(500, 300));
@@ -198,16 +242,20 @@ public class QuestionPanel {
         main.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         main.setAlignmentX(JPanel.LEFT_ALIGNMENT);
 
+        //create continue button and make it uncickable
         cont = new JButton("Weiter");
         cont.setEnabled(false);
         cont.setForeground(new Color(0,0,0,100));
 
+        //create the quesion panel for the current question
         currentQuestionPanel =  createQuestionPanel();
 
+        //create stats for the current quesion
         highscoreLabel = new JLabel("Bisheriger Highscore:" + highscore);
         scoreLabel = new JLabel("Aktueller Score:" +  currentScore);
         progressLabel = new JLabel("Frage: " + (questionIndex+1) + "/" + currentGame.getAmountQuestions());
 
+        //create finish button
         finish = new JButton("Fertig");
 
         finish.addActionListener(new ActionListener() {
@@ -222,24 +270,32 @@ public class QuestionPanel {
             }
         });
 
-        System.out.println(currentQuestion.correctAnswer());
-
+        //i decided against moving this action controller inside the controller package because it woild make the code really complicated and unreadable. It refreces too many variables and components
         cont.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                //upadte stats when correct anser
                 if(answers.get(selectedQuestion) == currentQuestion.correctAnswer()){
                     currentGame.setScore(currentGame.getScore() + 100);
                     currentGame.setAmountQuestionsCorrect(currentGame.getAmountQuestionsCorrect() + 1);
                     currentScore = currentScore + 100;
                     scoreLabel.setText("aktueller Score:" +  currentScore);
                 }
+
+                //
                 main.remove(currentQuestionPanel);
                 main.remove(cont);
+
+                //fo to next question
                 questionIndex++;
                 currentQuestion = gameQuestions.get(questionIndex);
+
+                //crate panel for new question
                 currentQuestionPanel = createQuestionPanel();
                 main.add(currentQuestionPanel);
-                System.out.println(currentGame.getAmountQuestions());
+
+                //only add continue button if last quesion not reached else add finish button
                 if(questionIndex < currentGame.getAmountQuestions()-1){
                     main.add(cont);
                 }
@@ -248,21 +304,35 @@ public class QuestionPanel {
                     finish.setForeground(new Color(0,0,0,100));
                     main.add(finish);
                 }
+
+                //add progress stat
                 progressLabel.setText("Frage: " + (questionIndex+1) + "/" + currentGame.getAmountQuestions());
+
+                //add continue button
                 cont.setEnabled(false);
                 cont.setForeground(new Color(0,0,0,100));
+
+                //force rerender
                 main.revalidate();
                 main.repaint();
             }
         });
+
+        //add the statistic of the quesion
         highscoreLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         scoreLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         progressLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         main.add(highscoreLabel);
         main.add(scoreLabel);
         main.add(progressLabel);
+
+        //add padding
         main.add(Box.createRigidArea(new Dimension(0, 60)));
+
+        //add the panel with the current quesion
         main.add(currentQuestionPanel);
+
+        //add the continue button
         main.add(cont);
     }
 }

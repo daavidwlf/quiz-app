@@ -19,23 +19,38 @@ import javax.swing.event.ChangeListener;
 import edu.kit.aifb.atks.opentdb4j.QuestionDifficulty;
 import edu.kit.aifb.atks.opentdb4j.QuestionType;
 
+/**
+ * This class create a component to modify the settings before starting a new game
+ * 
+ * @author David Wolf
+ * @version 17-06-2024
+ */
+
 public class Settings {
     public JPanel main;
 
+    //default level medium
     private static String selectedLevel = "Medium";
     private static int amountQuestions = 5;
 
+    /**
+     * creates settings component
+     */
     public Settings(){
+        //create and style main panel
         main = new JPanel();
         main.setPreferredSize(new Dimension(300, 200));
         main.setMaximumSize(new Dimension(500, 200));
         main.setLayout(new GridLayout(2,2));
         main.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
+        //creat amout of games label and add a spiner to select amount
         JLabel amountLabel = new JLabel("Anzahl Spiele:");
         JLabel selectionAmountLabel = new JLabel("5");
         SpinnerModel spinnerModel = new SpinnerNumberModel(5, 5, 50, 1);
         JSpinner spinner = new JSpinner(spinnerModel);
+
+        //this controller refeces too many variables and components to be moved to the controller package
         spinner.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -45,6 +60,8 @@ public class Settings {
                 selectionAmountLabel.setText(""+amountQuestions);
             }
         });
+
+        //make the text input for the amount of quesions uneditable to avoid false input
         JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
         editor.getTextField().setEditable(false);
         editor.setCursor(null);
@@ -58,6 +75,7 @@ public class Settings {
         String[] items = {"Easy", "Medium", "Hard"};
         JComboBox<String> difficultyInput = new JComboBox<>(items);
 
+        //this controller refeces too many variables and components to be moved to the controller package
         difficultyInput.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
@@ -68,6 +86,7 @@ public class Settings {
         });
         difficultyInput.setSelectedIndex(1);
 
+        //add all components
         main.add(amountLabel);
         main.add(spinner);
         main.add(difficultyLabel);

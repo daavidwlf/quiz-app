@@ -17,6 +17,13 @@ import javax.swing.border.EmptyBorder;
 import controller.Functions;
 import model.Game;
 
+
+/**
+ * This class crates a scoreboard with all stats to represent on the start screen
+ * 
+ * @author David Wolf
+ * @version 17-06-2024
+ */
 public class Scoreboard {
     public JPanel main;
     CustomPanel box;
@@ -26,12 +33,12 @@ public class Scoreboard {
 
     public Scoreboard(){
 
-        //add main panel with padding
+        //create main panel with padding
         main = new JPanel();
         main.setBorder(new EmptyBorder(0,20,0,20));
         main.setMaximumSize(new Dimension(500, 200));
 
-        //add clored box
+        //create colored box
         box = new CustomPanel(40);
         box.setPreferredSize(new Dimension(300, 200));
         box.setMaximumSize(new Dimension(500, 200));
@@ -39,11 +46,13 @@ public class Scoreboard {
         box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
         box.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
+        // calculate stats
         List<Game> previousGames = Functions.getGames();
         int score = calcHighscore(previousGames);
         int amountQuestions = calcAmountQuestions(previousGames);
         int percentageCorrect = Math.round(calcPercentageCorrect(previousGames)*100);
 
+        // create highscore label
         JLabel scoreLabelTitle = new JLabel("Highscore");
         scoreLabelTitle.setFont(new Font("default", Font.BOLD, 22));
         scoreLabelTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -51,12 +60,14 @@ public class Scoreboard {
         scoreLabel.setFont(new Font("default", Font.BOLD, 40));
         scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        //create box on upper and of scoreboard to representhighscore
         JPanel boxUpper = new JPanel();
         boxUpper.setLayout(new BoxLayout(boxUpper, BoxLayout.Y_AXIS));
         boxUpper.add(scoreLabelTitle);
         boxUpper.add(scoreLabel);
         boxUpper.setBackground(new Color(0,0,0,0));
 
+        //create amount games label
         JLabel amountGamesLabelTitle =  new JLabel("Spiele");
         scoreLabel.setFont(new Font("default", Font.PLAIN, 16));
         scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -64,6 +75,7 @@ public class Scoreboard {
         scoreLabel.setFont(new Font("default", Font.PLAIN, 16));
         scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        //create amount quesions label
         JLabel amountQuestionsLabelTitle =  new JLabel("Fragen");
         scoreLabel.setFont(new Font("default", Font.PLAIN, 16));
         scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -71,6 +83,7 @@ public class Scoreboard {
         scoreLabel.setFont(new Font("default", Font.PLAIN, 16));
         scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        //create precent correct label
         JLabel percentCorrectLabelTitle =  new JLabel("Quote");
         scoreLabel.setFont(new Font("default", Font.PLAIN, 16));
         scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -78,11 +91,13 @@ public class Scoreboard {
         scoreLabel.setFont(new Font("default", Font.PLAIN, 16));
         scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        //create lower box for styling
         JPanel boxLower = new JPanel();
         boxLower.setLayout(new GridLayout(2, 3));
         boxLower.setBackground(new Color(0,0,0,0));
         boxLower.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        //add all components
         boxLower.add(amountGamesLabel);
         boxLower.add(amountQuestionsLabel);
         boxLower.add(percentCorrectLabel);
@@ -92,13 +107,20 @@ public class Scoreboard {
         boxLower.add(percentCorrectLabelTitle);
 
         box.add(boxUpper);
+
+        //add padding
         box.add(Box.createRigidArea(new Dimension(0, 60)));
         box.add(boxLower);
 
 
         main.add(box);
     }
-
+    /**
+     * This function extracts the highcsore based on given list of games
+     * 
+     * @param games
+     * @return
+     */
     public int calcHighscore(List<Game> games){
         int score = 0;
         for(Game current : games){
@@ -109,6 +131,12 @@ public class Scoreboard {
         return score;
     }
 
+
+    /**
+     * calculates the amount of quesionsin given list of games
+     * @param games
+     * @return
+     */
     public int calcAmountQuestions(List<Game> games){
         int amount = 0;
         for(Game current : games){
@@ -117,6 +145,11 @@ public class Scoreboard {
         return amount;
     }
 
+    /**
+     * calulates the percantage of correct questions in given list of games
+     * @param games
+     * @return
+     */
     public float calcPercentageCorrect(List<Game> games){
         float percent = 0f;
         int divider = 0;
